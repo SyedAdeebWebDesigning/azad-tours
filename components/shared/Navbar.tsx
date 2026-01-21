@@ -24,7 +24,7 @@ const Navbar = () => {
 		<header className=" shadow-md fixed w-full backdrop-blur-xl">
 			<div className="flex items-center justify-between sticky top-0 w-full z-100 backdrop-blur-2xl max-w-7xl mx-auto px-4 py-2">
 				<Image
-					src="assets/logo.svg"
+					src="assets/Logo.svg"
 					alt="Azad Tours Logo"
 					className="p-2"
 					width={200}
@@ -65,7 +65,7 @@ const Navbar = () => {
 							<SheetHeader>
 								<SheetTitle>
 									<Image
-										src="assets/logo.svg"
+										src="assets/Logo.svg"
 										alt="Azad Tours Logo"
 										className="p-2"
 										width={200}
