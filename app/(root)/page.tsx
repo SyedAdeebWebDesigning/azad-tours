@@ -16,9 +16,9 @@ export default function Home() {
 					<p>
 						Contact:{" "}
 						<Link
-							href="mailto:hr@azadtours.in"
+							href="mailto:dev@azadtours.in"
 							className="font-semibold text-blue-600 hover:underline">
-							hr@azadtours.in{" "}
+							dev@azadtours.in{" "}
 						</Link>
 						for career opportunities and inquiries.
 					</p>
