@@ -20,7 +20,7 @@ export default function Home() {
 							className="font-semibold text-blue-600 hover:underline">
 							dev@azadtours.in{" "}
 						</Link>
-						for career opportunities and inquiries.
+						for inquiries and updates.
 					</p>
 				</div>
 			</section>
