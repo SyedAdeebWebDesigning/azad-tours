@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+# 🎬 Azad Tours and Travels
 
-First, run the development server:
+**End-to-end production support platform for film & media projects covering travel, logistics, locations, casting, and on-set catering in one system.**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<br/>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=nextdotjs)
+![TypeScript](https://img.shields.io/badge/TypeScript-blue?logo=typescript)
+![Status](https://img.shields.io/badge/status-work%20in%20progress-yellow)
+![Deployment](https://img.shields.io/badge/deployment-vercel-black?logo=vercel)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+</div>
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## ✨ What This Platform Does
 
-To learn more about Next.js, take a look at the following resources:
+🎥 **Production Logistics**  
+🚐 **Crew Travel & Vehicles**  
+🏨 **Hotel & Resort Bookings**  
+📍 **Shoot Location Coordination**  
+🎭 **Artist & Junior Artist Casting**  
+🍽️ **Premium On-Set Catering**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+All managed from **one unified system** so productions run smooth, fast, and stress-free.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🖥️ Preview (Coming Soon)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+> Screenshots and live previews will be added once core UI stabilizes.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+<!--
+![Dashboard Preview](./screenshots/dashboard.png)
+-->
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework:** Next.js (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Database:** TBD
+- **Auth:** TBD
+- **Deployment:** Vercel
+
+---
+
+## 🚧 Project Status
+
+This project is actively under development.  
+Features, structure, and UI are evolving.
+
+---
