@@ -17,7 +17,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
 	title: "Azad Tours and Travels",
 	description:
-		"Explore the world with Azad Tours and Travels. Your adventure starts here.",
+		"End-to-end production support platform for film & media projects covering travel, logistics, locations, casting, and on-set catering in one system.",
+	icons: {
+		icon: "/favicon.ico",
+	},
 };
 
 export default function RootLayout({
