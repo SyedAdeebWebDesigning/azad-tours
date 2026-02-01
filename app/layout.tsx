@@ -20,6 +20,12 @@ export const metadata: Metadata = {
 		"Explore the world with Azad Tours and Travels. Your adventure starts here.",
 };
 
+/**
+ * Root layout component that sets global fonts, language, and page-level wrappers.
+ *
+ * @param children - The page content to render inside the layout's <body>.
+ * @returns The top-level HTML structure (<html lang="en">) whose <body> applies font CSS variables and `antialiased`, contains `children`, and includes analytics and speed-insights components.
+ */
 export default function RootLayout({
 	children,
 }: Readonly<{
