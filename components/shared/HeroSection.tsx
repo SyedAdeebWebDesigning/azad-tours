@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 const HeroSection = () => {
 	return (
@@ -24,9 +26,12 @@ const HeroSection = () => {
 
 						{/* CTA */}
 						<div className="mt-8 flex flex-col sm:flex-row gap-4">
-							<Button className="px-7 py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition">
+							<Link
+								href={"/plan"}
+								className="px-4 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition flex items-center text-sm justify-center">
 								Plan Your Transport
-							</Button>
+								<ArrowRight className="ml-2 size-4" />
+							</Link>
 						</div>
 					</div>
 
