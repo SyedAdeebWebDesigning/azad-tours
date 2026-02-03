@@ -21,7 +21,7 @@ export const navLinks = [
 export const isDisabled = true; // All links are disabled as the website is under development
 const Navbar = () => {
 	return (
-		<header className=" shadow-md fixed w-full backdrop-blur-xl">
+		<header className=" shadow-md fixed w-full backdrop-blur-xl z-100">
 			<div className="flex items-center justify-between sticky top-0 w-full z-100 backdrop-blur-2xl max-w-7xl mx-auto px-4 py-2">
 				<Image
 					src="assets/Logo.svg"

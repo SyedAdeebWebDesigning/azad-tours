@@ -1,6 +1,16 @@
+import HeroSection from "@/components/shared/HeroSection";
 import Link from "next/link";
 
 export default function Home() {
+	if (process.env.IS_DEVELOPMENT !== "true") {
+		return (
+			<main className="">
+				<section>
+					<HeroSection />
+				</section>
+			</main>
+		);
+	}
 	return (
 		<main className="min-h-[93vh] flex items-center justify-center bg-gray-50 bgImg">
 			<section className="text-center max-w-6xl px-6">
