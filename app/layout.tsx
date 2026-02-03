@@ -19,7 +19,11 @@ export const metadata: Metadata = {
 	description:
 		"End-to-end production support platform for film & media projects covering travel, logistics, locations, casting, and on-set catering in one system.",
 	icons: {
-		icon: "/favicon.ico",
+		icon: [
+			{ url: "/favicon.ico", sizes: "any" },
+			{ url: "/favicon.png", sizes: "48x48", type: "image/png" },
+		],
+		apple: "/apple-touch-icon.png",
 	},
 };
 
@@ -30,9 +34,6 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<head>
-				<link rel="icon" href="/favicon.ico" sizes="any"></link>
-			</head>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 				{children}
