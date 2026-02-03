@@ -27,6 +27,7 @@ const Navbar = () => {
 					src="assets/Logo.svg"
 					alt="Azad Tours Logo"
 					className="p-2"
+					loading="eager"
 					width={200}
 					height={10}
 				/>
@@ -63,15 +64,7 @@ const Navbar = () => {
 						</SheetTrigger>
 						<SheetContent side="top" className="h-screen ">
 							<SheetHeader>
-								<SheetTitle>
-									<Image
-										src="assets/Logo.svg"
-										alt="Azad Tours Logo"
-										className="p-2"
-										width={200}
-										height={10}
-									/>
-								</SheetTitle>
+								<SheetTitle>Azad Tours & Travels</SheetTitle>
 							</SheetHeader>
 							<MenuLink />
 						</SheetContent>
