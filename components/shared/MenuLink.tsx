@@ -13,7 +13,7 @@ const MenuLink = () => {
 						whileInView={{ opacity: 1, y: 0 }}
 						transition={{ delay: index * 0.1, duration: 0.3 }}
 						className="flex items-center gap-2 hover:text-blue-600 transition-colors"
-						href={isDisabled ? "#" : link.href}>
+						href={link.href}>
 						<link.icon size={20} />
 						{link.name}
 					</motion.a>
