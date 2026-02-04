@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Button } from "../ui/button";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -20,7 +19,7 @@ const HeroSection = () => {
 
 						<p className="mt-5 text-lg text-neutral-600 text-justify">
 							Reliable, fully-equipped crew transport vehicles designed for
-							production crews, events, and touring teams—built to handle long
+							production crews, events, and touring teams-built to handle long
 							schedules, tight turnarounds, and on-site demands.
 						</p>
 

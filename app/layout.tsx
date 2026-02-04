@@ -15,12 +15,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+	metadataBase: new URL("https://azadtours.com"),
 	title: "Azad Tours and Travels",
 	description:
-		"End-to-end production support platform for film & media projects covering travel, logistics, locations, casting, and on-set catering in one system.",
+		"Azad Tours and Travels - Reliable, fully-equipped crew transport vehicles designed for production crews, events, and touring teams-built to handle long schedules, tight turnarounds, and on-site demands.",
 	icons: {
 		icon: [
-			{ url: "/favicon.ico", sizes: "any" },
+			{ url: "/favicon-v2.ico", sizes: "any" },
 			{ url: "/favicon.png", sizes: "48x48", type: "image/png" },
 		],
 		apple: "/apple-touch-icon.png",
