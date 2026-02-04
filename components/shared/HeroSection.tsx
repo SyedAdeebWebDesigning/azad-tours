@@ -6,7 +6,7 @@ const HeroSection = () => {
 	return (
 		<div className="relative overflow-hidden mt-30 sm:mt-0">
 			{/* Background shape */}
-			<div className="absolute -right-60 top-0 -translate-y-1/2 size-300 rounded-full bg-[#4B8AFF1A] z-0 hidden sm:block" />
+			<div className="absolute -right-60 top-0 -translate-y-1/2 size-300 rounded-full bg-primary/20 z-0 hidden sm:block" />
 
 			{/* Hero container */}
 			<div className="relative z-10 max-w-7xl mx-auto px-6 sm:min-h-[calc(100vh-80px)] flex items-center">
@@ -27,7 +27,7 @@ const HeroSection = () => {
 						<div className="mt-8 flex flex-col sm:flex-row gap-4">
 							<Link
 								href={"/plan"}
-								className="px-4 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition flex items-center text-sm justify-center">
+								className="px-4 py-2 rounded-lg bg-primary text-white font-medium hover:bg-primary/90 transition flex items-center text-sm justify-center">
 								Plan Your Transport
 								<ArrowRight className="ml-2 size-4" />
 							</Link>

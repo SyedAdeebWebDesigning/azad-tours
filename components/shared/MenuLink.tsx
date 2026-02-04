@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { isDisabled, navLinks } from "./Navbar";
+import { navLinks } from "./Navbar";
 
 const MenuLink = () => {
 	return (
