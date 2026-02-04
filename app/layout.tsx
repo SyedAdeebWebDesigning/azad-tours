@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	metadataBase: new URL("https://azadtours.com"),
+	metadataBase: new URL("https://azadtours.in"),
 	title: "Azad Tours and Travels",
 	description:
 		"Azad Tours and Travels - Reliable, fully-equipped crew transport vehicles designed for production crews, events, and touring teams-built to handle long schedules, tight turnarounds, and on-site demands.",
