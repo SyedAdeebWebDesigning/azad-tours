@@ -23,16 +23,19 @@ const Navbar = () => {
 	return (
 		<header className=" shadow-md fixed w-full backdrop-blur-xl z-100">
 			<div className="flex items-center justify-between sticky top-0 w-full z-100 backdrop-blur-2xl max-w-7xl mx-auto px-4 py-2">
-				<Link href={"/"}>
-					<Image
-						src="assets/Logo.svg"
-						alt="Azad Tours Logo"
-						className="p-2"
-						loading="eager"
-						width={200}
-						height={10}
-					/>
+				<Link href="/" className="flex items-center h-full">
+					<div className="flex items-center px-2 h-full">
+						<Image
+							src="/assets/Logo.svg"
+							alt="Azad Tours Logo"
+							width={200}
+							height={60}
+							priority
+							className="h-10 w-auto object-contain"
+						/>
+					</div>
 				</Link>
+
 				<nav>
 					{/* Future navigation items can be added here */}
 					<ul className="hidden items-center justify-between space-x-10 md:flex">
