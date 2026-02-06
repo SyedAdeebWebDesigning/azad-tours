@@ -1,6 +1,6 @@
 reviews:
   enabled: true
-  branches:
-    include:
+  auto_review:
+    base_branches:
       - main
       - dev
