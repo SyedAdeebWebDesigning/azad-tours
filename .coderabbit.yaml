@@ -1,0 +1,6 @@
+reviews:
+  enabled: true
+  branches:
+    include:
+      - main
+      - dev
