@@ -15,13 +15,13 @@
 
 ---
 
-<!-- ## ✨ What This Platform Does
+## ✨ What This Platform Does
 
 🚐 **Crew Travel & Vehicles**
 🏨 **Hotel & Resort Bookings**
 📍 **Shoot Location Coordination**
 🎭 **Artist & Junior Artist Casting**
-🍽️ **Premium On-Set Catering** -->
+🍽️ **Premium On-Set Catering**
 
 All managed from **one unified system** so productions run smooth, fast, and stress-free.
 
