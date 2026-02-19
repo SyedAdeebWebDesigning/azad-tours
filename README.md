@@ -42,8 +42,8 @@ All managed from **one unified system** so productions run smooth, fast, and str
 - **Framework:** Next.js (App Router)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS
-- **Database:** TBD
-- **Auth:** TBD
+- **Database:** MongoDB (via Prisma)
+- **Auth:** Clerk Auth
 - **Deployment:** Vercel
 
 ---
