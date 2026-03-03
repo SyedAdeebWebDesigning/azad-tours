@@ -34,7 +34,7 @@ export default function SignInForm() {
 			const result = await signIn!.create({
 				identifier: email,
 				password,
-			});
+			});	
 
 			if (result.status === "needs_second_factor") {
 				setDisplayTOTP(true);

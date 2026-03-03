@@ -9,10 +9,10 @@ import { headers } from "next/headers";
 import { Webhook } from "svix";
 
 export async function POST(req: Request): Promise<Response> {
-	const SIGNING_SECRET = process.env.CLERK_WEBHOOK_SECRET;
+	const SIGNING_SECRET = process.env.CLERK_WEBHOOK_SIGNING_SECRET;
 
 	if (!SIGNING_SECRET) {
-		console.error("Missing CLERK_WEBHOOK_SECRET");
+		console.error("Missing CLERK_WEBHOOK_SIGNING_SECRET");
 		return new Response("Server configuration error", { status: 500 });
 	}
 
@@ -64,7 +64,7 @@ export async function POST(req: Request): Promise<Response> {
 					imgUrl: image_url ?? "",
 				});
 
-				break;
+				return new Response("User created", { status: 201 });
 			}
 
 			case "user.updated": {
@@ -75,7 +75,6 @@ export async function POST(req: Request): Promise<Response> {
 
 				if (!existingUser) {
 					console.warn("User not found for update:", id);
-					break;
 				}
 
 				await prisma.user.update({
@@ -88,20 +87,19 @@ export async function POST(req: Request): Promise<Response> {
 					},
 				});
 
-				break;
+				return new Response("User updated", { status: 200 });
 			}
 
 			case "user.deleted": {
 				const { id } = event.data;
 				await deleteUserByClerkId(id as string);
-				break;
+				return new Response("User deleted", { status: 200 });
 			}
 
 			default:
 				console.log("Unhandled event type:", event.type);
+				return new Response("Event type not handled", { status: 200 });
 		}
-
-		return new Response("OK", { status: 200 });
 	} catch (error) {
 		console.error("Database operation failed:", error);
 		return new Response("Internal server error", { status: 500 });
