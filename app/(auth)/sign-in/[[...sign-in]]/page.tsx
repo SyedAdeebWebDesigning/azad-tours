@@ -224,8 +224,12 @@ export default function SignInForm() {
 												key="checking"
 												initial={{ opacity: 0 }}
 												animate={{ opacity: 1 }}
+												className="flex items-center justify-center"
 												exit={{ opacity: 0 }}>
-												<Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+												<Loader2 className="h-6 w-6 mr-1 animate-spin text-muted-foreground" />
+												<p className="text-sm text-muted-foreground">
+													Checking code...
+												</p>
 											</motion.div>
 										)}
 
@@ -234,8 +238,12 @@ export default function SignInForm() {
 												key="success"
 												initial={{ scale: 0 }}
 												animate={{ scale: 1 }}
+												className="flex items-center justify-center"
 												exit={{ scale: 0 }}>
-												<CheckCircle2 className="h-6 w-6 text-green-500" />
+												<CheckCircle2 className="h-6 w-6 mr-1 text-green-500" />
+												<p className="text-sm text-green-500">
+													Verification successful!
+												</p>
 											</motion.div>
 										)}
 
@@ -244,8 +252,12 @@ export default function SignInForm() {
 												key="error"
 												initial={{ scale: 0 }}
 												animate={{ scale: 1 }}
+												className="flex items-center justify-center"
 												exit={{ scale: 0 }}>
-												<XCircle className="h-6 w-6 text-red-500" />
+												<XCircle className="h-6 w-6 mr-1 text-red-500" />
+												<p className="text-sm text-red-500">
+													Invalid code, please try again.
+												</p>
 											</motion.div>
 										)}
 									</AnimatePresence>

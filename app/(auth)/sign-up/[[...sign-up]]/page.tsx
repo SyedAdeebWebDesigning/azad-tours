@@ -28,18 +28,25 @@ export default function SignUpForm() {
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+
 	const [otp, setOtp] = useState("");
 	const [pendingVerification, setPendingVerification] = useState(false);
+
 	const [error, setError] = useState<string | null>(null);
+
 	const [verificationState, setVerificationState] = useState<
 		"idle" | "checking" | "success" | "error"
 	>("idle");
+
+	const [isSigningUp, setIsSigningUp] = useState(false);
+	const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
 	if (!isLoaded || !signUp) return null;
 
 	const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setError(null);
+		setIsSigningUp(true);
 
 		try {
 			await signUp.create({
@@ -56,12 +63,12 @@ export default function SignUpForm() {
 			setPendingVerification(true);
 		} catch (err: any) {
 			setError(err?.errors?.[0]?.message || "Something went wrong");
+		} finally {
+			setIsSigningUp(false);
 		}
 	};
 
 	const verifyCode = async (fullCode: string) => {
-		if (!signUp) return;
-
 		try {
 			setVerificationState("checking");
 
@@ -89,11 +96,17 @@ export default function SignUpForm() {
 	};
 
 	const handleGoogleSignUp = async () => {
-		await signUp.authenticateWithRedirect({
-			strategy: "oauth_google",
-			redirectUrl: "/sso-callback",
-			redirectUrlComplete: "/",
-		});
+		try {
+			setIsGoogleLoading(true);
+
+			await signUp.authenticateWithRedirect({
+				strategy: "oauth_google",
+				redirectUrl: "/sso-callback",
+				redirectUrlComplete: "/",
+			});
+		} catch {
+			setIsGoogleLoading(false);
+		}
 	};
 
 	return (
@@ -110,13 +123,20 @@ export default function SignUpForm() {
 				<CardContent className="space-y-6">
 					{!pendingVerification && (
 						<>
+							{/* GOOGLE BUTTON */}
 							<Button
 								type="button"
 								variant="outline"
 								className="w-full flex items-center justify-center gap-2"
-								onClick={handleGoogleSignUp}>
-								<FcGoogle />
-								Continue with Google
+								onClick={handleGoogleSignUp}
+								disabled={isGoogleLoading}>
+								{isGoogleLoading ? (
+									<Loader2 className="h-4 w-4 animate-spin" />
+								) : (
+									<FcGoogle />
+								)}
+
+								{isGoogleLoading ? "Redirecting..." : "Continue with Google"}
 							</Button>
 
 							<div className="flex items-center gap-2">
@@ -125,6 +145,7 @@ export default function SignUpForm() {
 								<Separator className="flex-1" />
 							</div>
 
+							{/* SIGN UP FORM */}
 							<form onSubmit={handleSignUp} className="space-y-4">
 								<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 									<div className="space-y-1">
@@ -168,13 +189,21 @@ export default function SignUpForm() {
 
 								{error && <p className="text-sm text-red-500">{error}</p>}
 
-								<Button type="submit" className="w-full">
-									Sign Up
+								<Button type="submit" className="w-full" disabled={isSigningUp}>
+									{isSigningUp ? (
+										<div className="flex items-center justify-center gap-2">
+											<Loader2 className="h-4 w-4 animate-spin" />
+											Creating account...
+										</div>
+									) : (
+										"Sign Up"
+									)}
 								</Button>
 							</form>
 						</>
 					)}
 
+					{/* OTP STAGE */}
 					<AnimatePresence>
 						{pendingVerification && (
 							<motion.div
@@ -214,8 +243,12 @@ export default function SignUpForm() {
 												key="checking"
 												initial={{ opacity: 0 }}
 												animate={{ opacity: 1 }}
+												className="flex items-center justify-center"
 												exit={{ opacity: 0 }}>
-												<Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+												<Loader2 className="h-6 w-6 mr-1 animate-spin text-muted-foreground" />
+												<p className="text-sm text-muted-foreground">
+													Checking code...
+												</p>
 											</motion.div>
 										)}
 
@@ -224,8 +257,12 @@ export default function SignUpForm() {
 												key="success"
 												initial={{ scale: 0 }}
 												animate={{ scale: 1 }}
+												className="flex items-center justify-center"
 												exit={{ scale: 0 }}>
-												<CheckCircle2 className="h-6 w-6 text-green-500" />
+												<CheckCircle2 className="h-6 w-6 mr-1 text-green-500" />
+												<p className="text-sm text-green-500">
+													Verification successful!
+												</p>
 											</motion.div>
 										)}
 
@@ -234,8 +271,12 @@ export default function SignUpForm() {
 												key="error"
 												initial={{ scale: 0 }}
 												animate={{ scale: 1 }}
+												className="flex items-center justify-center"
 												exit={{ scale: 0 }}>
-												<XCircle className="h-6 w-6 text-red-500" />
+												<XCircle className="h-6 w-6 mr-1 text-red-500" />
+												<p className="text-sm text-red-500">
+													Invalid code, please try again.
+												</p>
 											</motion.div>
 										)}
 									</AnimatePresence>
