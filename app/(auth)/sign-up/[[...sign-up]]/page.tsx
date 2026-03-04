@@ -8,9 +8,15 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import {
+	InputOTP,
+	InputOTPGroup,
+	InputOTPSlot,
+} from "@/components/ui/input-otp";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { AnimatePresence, motion } from "framer-motion";
+import { CheckCircle2, Loader2, XCircle } from "lucide-react";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 
@@ -22,9 +28,12 @@ export default function SignUpForm() {
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [code, setCode] = useState("");
+	const [otp, setOtp] = useState("");
 	const [pendingVerification, setPendingVerification] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const [verificationState, setVerificationState] = useState<
+		"idle" | "checking" | "success" | "error"
+	>("idle");
 
 	if (!isLoaded || !signUp) return null;
 
@@ -45,42 +54,37 @@ export default function SignUpForm() {
 			});
 
 			setPendingVerification(true);
-		} catch (err: unknown) {
-			const message =
-				typeof err === "object" &&
-				err !== null &&
-				"errors" in err &&
-				Array.isArray((err as any).errors)
-					? (err as any).errors[0]?.message
-					: "Something went wrong";
-
-			setError(message);
+		} catch (err: any) {
+			setError(err?.errors?.[0]?.message || "Something went wrong");
 		}
 	};
 
-	const handleVerify = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		setError(null);
+	const verifyCode = async (fullCode: string) => {
+		if (!signUp) return;
 
 		try {
+			setVerificationState("checking");
+
 			const result = await signUp.attemptEmailAddressVerification({
-				code,
+				code: fullCode,
 			});
 
 			if (result.status === "complete") {
-				await setActive({ session: result.createdSessionId });
-				router.push("/");
-			}
-		} catch (err: unknown) {
-			const message =
-				typeof err === "object" &&
-				err !== null &&
-				"errors" in err &&
-				Array.isArray((err as any).errors)
-					? (err as any).errors[0]?.message
-					: "Invalid verification code";
+				setVerificationState("success");
 
-			setError(message);
+				setTimeout(async () => {
+					await setActive({ session: result.createdSessionId });
+					router.push("/");
+				}, 800);
+			}
+		} catch (err: any) {
+			setVerificationState("error");
+			setError(err?.errors?.[0]?.message || "Invalid code");
+
+			setTimeout(() => {
+				setVerificationState("idle");
+				setOtp("");
+			}, 1500);
 		}
 	};
 
@@ -95,7 +99,6 @@ export default function SignUpForm() {
 	return (
 		<div className="flex items-center justify-center min-h-screen bg-muted/40">
 			<Card className="w-full max-w-md border-none shadow-none rounded-2xl">
-				{/* Smart CAPTCHA container */}
 				<div id="clerk-captcha" />
 
 				<CardHeader>
@@ -104,10 +107,9 @@ export default function SignUpForm() {
 					</CardTitle>
 				</CardHeader>
 
-				<CardContent className="space-y-4">
+				<CardContent className="space-y-6">
 					{!pendingVerification && (
 						<>
-							{/* Google */}
 							<Button
 								type="button"
 								variant="outline"
@@ -124,7 +126,6 @@ export default function SignUpForm() {
 							</div>
 
 							<form onSubmit={handleSignUp} className="space-y-4">
-								{/* Name row */}
 								<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 									<div className="space-y-1">
 										<Label>First Name</Label>
@@ -167,39 +168,79 @@ export default function SignUpForm() {
 
 								{error && <p className="text-sm text-red-500">{error}</p>}
 
-								<Button type="submit" disabled={!isLoaded} className="w-full">
+								<Button type="submit" className="w-full">
 									Sign Up
 								</Button>
 							</form>
 						</>
 					)}
 
-					{/* Verification Form */}
 					<AnimatePresence>
 						{pendingVerification && (
-							<motion.form
+							<motion.div
 								key="verify-form"
-								onSubmit={handleVerify}
 								initial={{ opacity: 0, y: -20 }}
 								animate={{ opacity: 1, y: 0 }}
 								exit={{ opacity: 0, y: -20 }}
 								transition={{ duration: 0.3 }}
-								className="space-y-4">
-								<div className="space-y-1">
-									<Label>Verification Code</Label>
-									<Input
-										value={code}
-										onChange={(e) => setCode(e.target.value)}
-										required
-									/>
+								className="space-y-6">
+								<Label className="text-center block">
+									Enter Verification Code
+								</Label>
+
+								<div className="flex flex-col items-center gap-4">
+									<InputOTP
+										maxLength={6}
+										value={otp}
+										onChange={async (value) => {
+											setOtp(value);
+											if (value.length === 6) {
+												await verifyCode(value);
+											}
+										}}>
+										<InputOTPGroup>
+											<InputOTPSlot index={0} />
+											<InputOTPSlot index={1} />
+											<InputOTPSlot index={2} />
+											<InputOTPSlot index={3} />
+											<InputOTPSlot index={4} />
+											<InputOTPSlot index={5} />
+										</InputOTPGroup>
+									</InputOTP>
+
+									<AnimatePresence mode="wait">
+										{verificationState === "checking" && (
+											<motion.div
+												key="checking"
+												initial={{ opacity: 0 }}
+												animate={{ opacity: 1 }}
+												exit={{ opacity: 0 }}>
+												<Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+											</motion.div>
+										)}
+
+										{verificationState === "success" && (
+											<motion.div
+												key="success"
+												initial={{ scale: 0 }}
+												animate={{ scale: 1 }}
+												exit={{ scale: 0 }}>
+												<CheckCircle2 className="h-6 w-6 text-green-500" />
+											</motion.div>
+										)}
+
+										{verificationState === "error" && (
+											<motion.div
+												key="error"
+												initial={{ scale: 0 }}
+												animate={{ scale: 1 }}
+												exit={{ scale: 0 }}>
+												<XCircle className="h-6 w-6 text-red-500" />
+											</motion.div>
+										)}
+									</AnimatePresence>
 								</div>
-
-								{error && <p className="text-sm text-red-500">{error}</p>}
-
-								<Button type="submit" className="w-full">
-									Verify Email
-								</Button>
-							</motion.form>
+							</motion.div>
 						)}
 					</AnimatePresence>
 				</CardContent>

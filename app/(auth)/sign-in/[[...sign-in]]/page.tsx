@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useSignIn } from "@clerk/nextjs";
@@ -6,14 +7,18 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import {
+	InputOTP,
+	InputOTPGroup,
+	InputOTPSlot,
+} from "@/components/ui/input-otp";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { FcGoogle } from "react-icons/fc";
-
 import { AnimatePresence, motion } from "framer-motion";
+import { CheckCircle2, Loader2, XCircle } from "lucide-react";
 import Link from "next/link";
+import { FcGoogle } from "react-icons/fc";
 
 export default function SignInForm() {
 	const { isLoaded, signIn, setActive } = useSignIn();
@@ -21,61 +26,91 @@ export default function SignInForm() {
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [code, setCode] = useState("");
-	const [useBackupCode, setUseBackupCode] = useState(false);
-	const [displayTOTP, setDisplayTOTP] = useState(false);
+
+	const [displayOTP, setDisplayOTP] = useState(false);
+	const [otp, setOtp] = useState("");
+
+	const [verificationState, setVerificationState] = useState<
+		"idle" | "checking" | "success" | "error"
+	>("idle");
+
+	const [isSigningIn, setIsSigningIn] = useState(false);
+	const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+
 	const [error, setError] = useState<string | null>(null);
 
+	if (!isLoaded || !signIn) return null;
+
+	// EMAIL + PASSWORD
 	const handleFirstStage = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setError(null);
+		setIsSigningIn(true);
 
 		try {
-			const result = await signIn!.create({
+			const result = await signIn.create({
 				identifier: email,
 				password,
-			});	
+			});
 
 			if (result.status === "needs_second_factor") {
-				setDisplayTOTP(true);
+				await signIn.prepareSecondFactor({
+					strategy: "email_code",
+				});
+
+				setDisplayOTP(true);
 			} else if (result.status === "complete") {
-				// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-				isLoaded && (await setActive({ session: result.createdSessionId }));
+				await setActive({ session: result.createdSessionId });
 				router.push("/");
 			}
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
-			setError(err.errors?.[0]?.message || "Something went wrong");
+			setError(err?.errors?.[0]?.message || "Invalid credentials");
+		} finally {
+			setIsSigningIn(false);
 		}
 	};
 
-	const handleSecondStage = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setError(null);
-
+	// OTP VERIFY
+	const verifyCode = async (codeValue: string) => {
 		try {
-			const result = await signIn!.attemptSecondFactor({
-				strategy: useBackupCode ? "backup_code" : "totp",
-				code,
+			setVerificationState("checking");
+
+			const result = await signIn.attemptSecondFactor({
+				strategy: "email_code",
+				code: codeValue,
 			});
 
 			if (result.status === "complete") {
-				// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-				isLoaded && (await setActive({ session: result.createdSessionId }));
-				router.push("/");
+				setVerificationState("success");
+
+				setTimeout(async () => {
+					await setActive({ session: result.createdSessionId });
+					router.push("/");
+				}, 800);
 			}
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
-			setError(err.errors?.[0]?.message || "Invalid code");
+			setVerificationState("error");
+			setError(err?.errors?.[0]?.message || "Invalid code");
+
+			setTimeout(() => {
+				setVerificationState("idle");
+				setOtp("");
+			}, 1500);
 		}
 	};
 
 	const handleGoogleSignIn = async () => {
-		await signIn!.authenticateWithRedirect({
-			strategy: "oauth_google",
-			redirectUrl: "/sso-callback",
-			redirectUrlComplete: "/",
-		});
+		try {
+			setIsGoogleLoading(true);
+
+			await signIn.authenticateWithRedirect({
+				strategy: "oauth_google",
+				redirectUrl: "/sso-callback",
+				redirectUrlComplete: "/",
+			});
+		} catch {
+			setIsGoogleLoading(false);
+		}
 	};
 
 	return (
@@ -83,19 +118,26 @@ export default function SignInForm() {
 			<Card className="w-full max-w-md shadow-none border-none rounded-2xl">
 				<CardHeader>
 					<CardTitle className="text-2xl text-center">
-						{displayTOTP ? "Verify your account" : "Sign in to your account"}
+						{displayOTP ? "Verify your account" : "Sign in to your account"}
 					</CardTitle>
 				</CardHeader>
 
-				<CardContent className="space-y-4">
-					{!displayTOTP && (
+				<CardContent className="space-y-6">
+					{!displayOTP && (
 						<>
+							{/* GOOGLE BUTTON */}
 							<Button
 								variant="outline"
 								className="w-full flex items-center justify-center gap-2"
-								onClick={handleGoogleSignIn}>
-								<FcGoogle />
-								Continue with Google
+								onClick={handleGoogleSignIn}
+								disabled={isGoogleLoading}>
+								{isGoogleLoading ? (
+									<Loader2 className="h-4 w-4 animate-spin" />
+								) : (
+									<FcGoogle />
+								)}
+
+								{isGoogleLoading ? "Redirecting..." : "Continue with Google"}
 							</Button>
 
 							<div className="flex items-center gap-2">
@@ -104,6 +146,7 @@ export default function SignInForm() {
 								<Separator className="flex-1" />
 							</div>
 
+							{/* EMAIL LOGIN */}
 							<form onSubmit={handleFirstStage} className="space-y-4">
 								<div className="space-y-1">
 									<Label>Email</Label>
@@ -127,50 +170,92 @@ export default function SignInForm() {
 
 								{error && <p className="text-sm text-red-500">{error}</p>}
 
-								<Button type="submit" disabled={!isLoaded} className="w-full">
-									{isLoaded ? "Sign In" : "Loading..."}
+								<Button type="submit" className="w-full" disabled={isSigningIn}>
+									{isSigningIn ? (
+										<div className="flex items-center justify-center gap-2">
+											<Loader2 className="h-4 w-4 animate-spin" />
+											Signing in...
+										</div>
+									) : (
+										"Sign In"
+									)}
 								</Button>
 							</form>
 						</>
 					)}
 
+					{/* OTP STAGE */}
 					<AnimatePresence>
-						{displayTOTP && (
-							<motion.form
-								key="otp-form"
-								onSubmit={handleSecondStage}
+						{displayOTP && (
+							<motion.div
+								key="otp-stage"
 								initial={{ opacity: 0, y: -20 }}
 								animate={{ opacity: 1, y: 0 }}
 								exit={{ opacity: 0, y: -20 }}
-								transition={{ duration: 0.3, ease: "easeOut" }}
-								className="space-y-4">
-								<div className="space-y-1">
-									<Label>Authentication Code</Label>
-									<Input
-										value={code}
-										onChange={(e) => setCode(e.target.value)}
-										required
-									/>
+								transition={{ duration: 0.3 }}
+								className="space-y-6">
+								<Label className="text-center block">
+									Enter Authentication Code
+								</Label>
+
+								<div className="flex flex-col items-center gap-4">
+									<InputOTP
+										maxLength={6}
+										value={otp}
+										onChange={async (value) => {
+											setOtp(value);
+											if (value.length === 6) {
+												await verifyCode(value);
+											}
+										}}>
+										<InputOTPGroup>
+											<InputOTPSlot index={0} />
+											<InputOTPSlot index={1} />
+											<InputOTPSlot index={2} />
+											<InputOTPSlot index={3} />
+											<InputOTPSlot index={4} />
+											<InputOTPSlot index={5} />
+										</InputOTPGroup>
+									</InputOTP>
+
+									<AnimatePresence mode="wait">
+										{verificationState === "checking" && (
+											<motion.div
+												key="checking"
+												initial={{ opacity: 0 }}
+												animate={{ opacity: 1 }}
+												exit={{ opacity: 0 }}>
+												<Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+											</motion.div>
+										)}
+
+										{verificationState === "success" && (
+											<motion.div
+												key="success"
+												initial={{ scale: 0 }}
+												animate={{ scale: 1 }}
+												exit={{ scale: 0 }}>
+												<CheckCircle2 className="h-6 w-6 text-green-500" />
+											</motion.div>
+										)}
+
+										{verificationState === "error" && (
+											<motion.div
+												key="error"
+												initial={{ scale: 0 }}
+												animate={{ scale: 1 }}
+												exit={{ scale: 0 }}>
+												<XCircle className="h-6 w-6 text-red-500" />
+											</motion.div>
+										)}
+									</AnimatePresence>
 								</div>
-
-								<div className="flex items-center gap-2">
-									<Checkbox
-										checked={useBackupCode}
-										onCheckedChange={() => setUseBackupCode((prev) => !prev)}
-									/>
-									<Label className="text-sm">Use backup code</Label>
-								</div>
-
-								{error && <p className="text-sm text-red-500">{error}</p>}
-
-								<Button type="submit" disabled={!isLoaded} className="w-full">
-									Verify
-								</Button>
-							</motion.form>
+							</motion.div>
 						)}
 					</AnimatePresence>
 				</CardContent>
-				<div>
+
+				<div className="pb-6">
 					<p className="mt-4 text-center text-sm text-muted-foreground">
 						Don&apos;t have an account?{" "}
 						<Link href="/sign-up" className="text-blue-600 hover:underline">

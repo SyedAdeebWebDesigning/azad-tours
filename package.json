@@ -19,6 +19,7 @@
 		"clerk": "^0.8.3",
 		"clsx": "^2.1.1",
 		"framer-motion": "^12.28.1",
+		"input-otp": "^1.4.2",
 		"lucide-react": "^0.562.0",
 		"mongodb": "^7.1.0",
 		"next": "16.1.4",
