@@ -5,11 +5,13 @@ import { useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { useClerk } from "@clerk/nextjs";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+
+import * as Clerk from "@clerk/elements/common";
+import * as SignIn from "@clerk/elements/sign-in";
+
 import {
 	InputOTP,
 	InputOTPGroup,
@@ -29,8 +31,6 @@ export default function SignInForm() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	const { openSignIn } = useClerk();
-
 	const [displayOTP, setDisplayOTP] = useState(false);
 	const [otp, setOtp] = useState("");
 
@@ -39,13 +39,12 @@ export default function SignInForm() {
 	>("idle");
 
 	const [isSigningIn, setIsSigningIn] = useState(false);
-	const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
 	const [error, setError] = useState<string | null>(null);
 
 	if (!isLoaded || !signIn) return null;
 
-	// EMAIL + PASSWORD
+	// EMAIL + PASSWORD LOGIN
 	const handleFirstStage = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setError(null);
@@ -68,7 +67,15 @@ export default function SignInForm() {
 				router.push("/");
 			}
 		} catch (err: any) {
-			setError(err?.errors?.[0]?.message || "Invalid credentials");
+			const code = err?.errors?.[0]?.code;
+
+			if (code === "form_identifier_not_found") {
+				setError("No account found with this email.");
+			} else if (code === "form_password_incorrect") {
+				setError("Incorrect password.");
+			} else {
+				setError(err?.errors?.[0]?.message || "Something went wrong.");
+			}
 		} finally {
 			setIsSigningIn(false);
 		}
@@ -94,7 +101,6 @@ export default function SignInForm() {
 			}
 		} catch (err: any) {
 			setVerificationState("error");
-			setError(err?.errors?.[0]?.message || "Invalid code");
 
 			setTimeout(() => {
 				setVerificationState("idle");
@@ -103,24 +109,11 @@ export default function SignInForm() {
 		}
 	};
 
-	const handleGoogleSignIn = async () => {
-		try {
-			setIsGoogleLoading(true);
-
-			await signIn.authenticateWithRedirect({
-				strategy: "oauth_google",
-				redirectUrl: "/sso-callback",
-				redirectUrlComplete: "/",
-			});
-		} catch (err) {
-			setIsGoogleLoading(false);
-			console.error(err);
-		}
-	};
-
 	return (
 		<div className="flex items-center justify-center min-h-screen bg-muted/40">
 			<Card className="w-full max-w-md shadow-none border-none rounded-2xl">
+				<div id="clerk-captcha" />
+
 				<CardHeader>
 					<CardTitle className="text-2xl text-center">
 						{displayOTP ? "Verify your account" : "Sign in to your account"}
@@ -130,20 +123,14 @@ export default function SignInForm() {
 				<CardContent className="space-y-6">
 					{!displayOTP && (
 						<>
-							{/* GOOGLE BUTTON */}
-							<Button
-								variant="outline"
-								className="w-full flex items-center justify-center gap-2"
-								onClick={handleGoogleSignIn}
-								disabled={isGoogleLoading}>
-								{isGoogleLoading ? (
-									<Loader2 className="h-4 w-4 animate-spin" />
-								) : (
-									<FcGoogle />
-								)}
-
-								{isGoogleLoading ? "Redirecting..." : "Continue with Google"}
-							</Button>
+							<SignIn.Root routing="path" path="/sign-in">
+								<Clerk.Connection asChild name="google">
+									<Button variant={"ghost"} className="w-full">
+										<FcGoogle />
+										Sign in with Google
+									</Button>
+								</Clerk.Connection>
+							</SignIn.Root>
 
 							<div className="flex items-center gap-2">
 								<Separator className="flex-1" />
@@ -173,7 +160,14 @@ export default function SignInForm() {
 									/>
 								</div>
 
-								{error && <p className="text-sm text-red-500">{error}</p>}
+								{error && (
+									<p className="text-sm text-red-500 text-center">
+										{error}{" "}
+										<Link href="/sign-up" className="text-blue-600 underline">
+											Create account
+										</Link>
+									</p>
+								)}
 
 								<Button type="submit" className="w-full" disabled={isSigningIn}>
 									{isSigningIn ? (
@@ -229,9 +223,9 @@ export default function SignInForm() {
 												key="checking"
 												initial={{ opacity: 0 }}
 												animate={{ opacity: 1 }}
-												className="flex items-center justify-center"
-												exit={{ opacity: 0 }}>
-												<Loader2 className="h-6 w-6 mr-1 animate-spin text-muted-foreground" />
+												exit={{ opacity: 0 }}
+												className="flex items-center justify-center">
+												<Loader2 className="h-6 w-6 mr-2 animate-spin text-muted-foreground" />
 												<p className="text-sm text-muted-foreground">
 													Checking code...
 												</p>
@@ -243,9 +237,9 @@ export default function SignInForm() {
 												key="success"
 												initial={{ scale: 0 }}
 												animate={{ scale: 1 }}
-												className="flex items-center justify-center"
-												exit={{ scale: 0 }}>
-												<CheckCircle2 className="h-6 w-6 mr-1 text-green-500" />
+												exit={{ scale: 0 }}
+												className="flex items-center justify-center">
+												<CheckCircle2 className="h-6 w-6 mr-2 text-green-500" />
 												<p className="text-sm text-green-500">
 													Verification successful!
 												</p>
@@ -257,9 +251,9 @@ export default function SignInForm() {
 												key="error"
 												initial={{ scale: 0 }}
 												animate={{ scale: 1 }}
-												className="flex items-center justify-center"
-												exit={{ scale: 0 }}>
-												<XCircle className="h-6 w-6 mr-1 text-red-500" />
+												exit={{ scale: 0 }}
+												className="flex items-center justify-center">
+												<XCircle className="h-6 w-6 mr-2 text-red-500" />
 												<p className="text-sm text-red-500">
 													Invalid code, please try again.
 												</p>

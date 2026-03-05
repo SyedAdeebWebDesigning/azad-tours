@@ -7,6 +7,9 @@ import { useState } from "react";
 
 import { useClerk } from "@clerk/nextjs";
 
+import * as Clerk from "@clerk/elements/common";
+import * as SignIn from "@clerk/elements/sign-in";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -128,21 +131,14 @@ export default function SignUpForm() {
 				<CardContent className="space-y-6">
 					{!pendingVerification && (
 						<>
-							{/* GOOGLE BUTTON */}
-							<Button
-								type="button"
-								variant="outline"
-								className="w-full flex items-center justify-center gap-2"
-								onClick={handleGoogleSignUp}
-								disabled={isGoogleLoading}>
-								{isGoogleLoading ? (
-									<Loader2 className="h-4 w-4 animate-spin" />
-								) : (
-									<FcGoogle />
-								)}
-
-								{isGoogleLoading ? "Redirecting..." : "Continue with Google"}
-							</Button>
+							<SignIn.Root routing="path" path="/sign-up">
+								<Clerk.Connection asChild name="google">
+									<Button variant={"ghost"} className="w-full">
+										<FcGoogle />
+										Sign in with Google
+									</Button>
+								</Clerk.Connection>
+							</SignIn.Root>
 
 							<div className="flex items-center gap-2">
 								<Separator className="flex-1" />

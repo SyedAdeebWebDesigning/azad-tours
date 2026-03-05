@@ -21,6 +21,7 @@
 		"lint": "eslint"
 	},
 	"dependencies": {
+		"@clerk/elements": "^0.24.13",
 		"@clerk/nextjs": "^6.38.2",
 		"@prisma/client": "^6.16.3",
 		"@radix-ui/react-dialog": "^1.1.15",
