@@ -87,9 +87,22 @@ const Navbar = () => {
 								<MenuIcon className="size-6" />
 							</Button>
 						</SheetTrigger>
-						<SheetContent side="top" className="h-screen ">
+						<SheetContent side="bottom" className="h-screen z-100">
 							<SheetHeader>
-								<SheetTitle>Azad Tours & Travels</SheetTitle>
+								<SheetTitle>
+									<Link href="/" className="flex items-center h-full">
+										<div className="flex items-center px-2 h-full">
+											<Image
+												src="/assets/Logo.svg"
+												alt="Azad Tours Logo"
+												width={200}
+												height={60}
+												priority
+												className="sm:h-20 h-16 w-auto object-contain"
+											/>
+										</div>
+									</Link>
+								</SheetTitle>
 							</SheetHeader>
 							<MenuLink />
 						</SheetContent>
