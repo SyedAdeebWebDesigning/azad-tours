@@ -103,16 +103,18 @@ export default function SignInForm() {
 		}
 	};
 
-	const handleGoogleSignIn = () => {
+	const handleGoogleSignIn = async () => {
 		try {
 			setIsGoogleLoading(true);
 
-			openSignIn({
-				afterSignInUrl: "/",
-				afterSignUpUrl: "/",
+			await signIn.authenticateWithRedirect({
+				strategy: "oauth_google",
+				redirectUrl: "/sso-callback",
+				redirectUrlComplete: "/",
 			});
-		} catch {
+		} catch (err) {
 			setIsGoogleLoading(false);
+			console.error(err);
 		}
 	};
 
