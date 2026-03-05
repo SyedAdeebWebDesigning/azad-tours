@@ -5,6 +5,8 @@ import { useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { useClerk } from "@clerk/nextjs";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -26,6 +28,8 @@ export default function SignInForm() {
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+
+	const { openSignIn } = useClerk();
 
 	const [displayOTP, setDisplayOTP] = useState(false);
 	const [otp, setOtp] = useState("");
@@ -99,14 +103,13 @@ export default function SignInForm() {
 		}
 	};
 
-	const handleGoogleSignIn = async () => {
+	const handleGoogleSignIn = () => {
 		try {
 			setIsGoogleLoading(true);
 
-			await signIn.authenticateWithRedirect({
-				strategy: "oauth_google",
-				redirectUrl: "/sso-callback",
-				redirectUrlComplete: "/",
+			openSignIn({
+				afterSignInUrl: "/",
+				afterSignUpUrl: "/",
 			});
 		} catch {
 			setIsGoogleLoading(false);
