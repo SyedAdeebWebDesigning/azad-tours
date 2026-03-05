@@ -94,4 +94,12 @@
 		background-size: cover;
 		background-repeat: no-repeat;
 	}
+
+	.cl-cardBox {
+		@apply shadow-none! border!;
+	}
+
+	.cl-formButtonPrimary {
+		@apply bg-primary! py-2! shadow-none! border-none!;
+	}
 }
