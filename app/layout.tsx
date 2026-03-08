@@ -59,7 +59,7 @@ export default function RootLayout({
 							Contact:{" "}
 							<Link
 								href="mailto:dev@azadtours.in"
-								className="font-semibold text-blue-600 hover:underline">
+								className="font-semibold text-primary hover:underline">
 								dev@azadtours.in{" "}
 							</Link>
 							for inquiries and updates.
