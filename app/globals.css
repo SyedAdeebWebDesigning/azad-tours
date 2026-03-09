@@ -102,4 +102,11 @@
 	.cl-formButtonPrimary {
 		@apply bg-primary! py-2! shadow-none! border-none!;
 	}
+
+	.rumi-bg {
+		background-size: cover;
+		background-position: center;
+		background-attachment: fixed;
+		background-image: url("/assets/rumi-gate.webp");
+	}
 }
