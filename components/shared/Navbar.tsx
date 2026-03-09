@@ -23,7 +23,7 @@ import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 const Navbar = () => {
 	return (
-		<header className=" shadow-md fixed w-full backdrop-blur-xl z-100">
+		<header className=" shadow-md fixed w-full bg-white z-100">
 			<div className="flex items-center justify-between sticky top-0 w-full z-100 backdrop-blur-2xl max-w-7xl mx-auto px-4 py-2">
 				<Link href="/" className="flex items-center h-full">
 					<div className="flex items-center px-2 h-full">
