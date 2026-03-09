@@ -39,7 +39,6 @@ const Navbar = () => {
 				</Link>
 
 				<nav className="flex items-center">
-					{/* Future navigation items can be added here */}
 					<ul className="flex items-center justify-between space-x-10">
 						{navLinks.map((link) => (
 							<Link
