@@ -5,7 +5,6 @@ interface HeadingProps {
 	subTitle?: string;
 	theme: "light" | "dark";
 }
-
 const Heading = (props: HeadingProps) => {
 	const { title, subTitle, theme } = props;
 	return (
