@@ -59,7 +59,7 @@ const WhyChooseUs = () => {
 								transition={{
 									delay: 0.3 + index * 0.2,
 									duration: 0.5,
-									ease: "easeInOut",
+									ease: "easeInOut"
 								}}
 								className="bg-transparent rounded-xl p-6 flex  transition">
 								<Icon className="w-15 p-1 text-white mb-4 flex items-center h-full mr-2" />
