@@ -1,14 +1,14 @@
 "use client";
 
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 import { motion } from "framer-motion";
 
 const HeroSection = () => {
 	return (
-		<div className="relative overflow-hidden mt-30 sm:mt-0">
+		<div className="relative overflow-hidden my-30 sm:mt-0">
 			{/* Background shape */}
 			<motion.div
 				initial={{ opacity: 0, scale: 0.2 }}
@@ -18,7 +18,7 @@ const HeroSection = () => {
 			/>
 
 			{/* Hero container */}
-			<div className="relative z-10 max-w-7xl mx-auto px-6 sm:min-h-[calc(100vh-80px)] flex items-center">
+			<div className="relative z-10 max-w-7xl mx-auto px-6 sm:min-h-[calc(100vh)] flex items-center">
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-12 items-center w-full">
 					{/* LEFT CONTENT */}
 					<div className="max-w-xl order-2 sm:order-1">

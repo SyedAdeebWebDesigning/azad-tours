@@ -7,7 +7,7 @@ export default function Home() {
 			<section>
 				<HeroSection />
 			</section>
-			<section>
+			<section className="rumi-bg">
 				<WhyChooseUs />
 			</section>
 		</main>

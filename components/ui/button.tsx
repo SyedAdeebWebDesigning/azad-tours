@@ -52,6 +52,7 @@ function Button({
 		<Comp
 			data-slot="button"
 			data-variant={variant}
+			aria-controls="radix-_R_19kndtb_"
 			data-size={size}
 			className={cn(buttonVariants({ variant, size, className }))}
 			{...props}
