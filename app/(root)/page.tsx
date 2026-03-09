@@ -4,7 +4,7 @@ import WhyChooseUs from "@/components/shared/WhyChooseUs";
 export default function Home() {
 	return (
 		<main className="">
-			<section className="mt-40">
+			<section className="mt-20">
 				<HeroSection />
 			</section>
 			<section className="rumi-bg">
