@@ -59,7 +59,7 @@ export default function RootLayout({
 							Contact:{" "}
 							<Link
 								href="mailto:dev@azadtours.in"
-								className="font-semibold text-primary hover:underline">
+								className="font-semibold text-blue-600 hover:underline">
 								dev@azadtours.in{" "}
 							</Link>
 							for inquiries and updates.
@@ -71,7 +71,7 @@ export default function RootLayout({
 	}
 	return (
 		<ClerkProvider>
-			<html lang="en" suppressHydrationWarning>
+			<html lang="en">
 				<body
 					className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 					{children}
