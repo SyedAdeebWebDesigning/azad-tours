@@ -7,7 +7,7 @@ export default function Home() {
 			<section className="mt-20">
 				<HeroSection />
 			</section>
-			<section className="rumi-bg">
+			<section className="_bg">
 				<WhyChooseUs />
 			</section>
 		</main>

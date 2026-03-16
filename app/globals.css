@@ -103,10 +103,11 @@
 		@apply bg-primary! py-2! shadow-none! border-none!;
 	}
 
-	.rumi-bg {
+	._bg {
 		background-size: cover;
-		background-position: center;
+		background-position: top;
 		background-attachment: fixed;
-		background-image: url("/assets/rumi-gate.webp");
+		background-repeat: no-repeat;
+		background-image: url("/assets/collage.png");
 	}
 }
