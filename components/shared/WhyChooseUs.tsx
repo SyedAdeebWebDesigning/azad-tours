@@ -36,17 +36,13 @@ const WhyChooseUs = () => {
 	return (
 		<motion.div className="backdrop-blur bg-black/50">
 			<div className="mx-auto max-w-4xl py-10">
-				<motion.div
-					initial={{ y: -50, opacity: 0 }}
-					whileInView={{ y: 0, opacity: 1 }}
-					viewport={{ once: true }}
-					transition={{ delay: 0.2 }}>
+				<div>
 					<Heading
 						title="Why Choose Us"
 						subTitle="From transparent pricing to well-planned itineraries, we make every journey comfortable, stress-free, and worth remembering."
 						theme="dark"
 					/>
-				</motion.div>
+				</div>
 				<div className="grid gap-8 md:grid-cols-2">
 					{features.map((feature, index) => {
 						const Icon = feature.icon;
@@ -59,7 +55,7 @@ const WhyChooseUs = () => {
 								transition={{
 									delay: 0.3 + index * 0.2,
 									duration: 0.5,
-									ease: "easeInOut"
+									ease: "easeInOut",
 								}}
 								className="bg-transparent rounded-xl p-6 flex  transition">
 								<Icon className="w-15 p-1 text-white mb-4 flex items-center h-full mr-2" />
