@@ -1,7 +1,10 @@
 "use client";
 
+import { cn } from "@/lib/utils";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { buttonVariants } from "../ui/button";
 import Heading from "./Heading";
 
 const Cities = () => {
@@ -45,7 +48,7 @@ const Cities = () => {
 	];
 
 	return (
-		<section className="bg-neutral-100 py-16">
+		<div className="bg-neutral-100 py-16">
 			<div className="mx-auto max-w-6xl px-4">
 				{/* Heading */}
 				<Heading
@@ -80,8 +83,21 @@ const Cities = () => {
 						</Link>
 					))}
 				</div>
+				<div className="flex items-center justify-center">
+					<Link
+						className={cn(
+							"mt-12",
+							buttonVariants({ variant: "default", size: "lg" }),
+						)}
+						href={"/cities"}>
+						<p className="text-center flex justify-center text-md text-primary-foreground items-center">
+							<span className="">Explore all cities we serve</span>{" "}
+							<ArrowRight className="m-1 mt-1.25" />
+						</p>
+					</Link>
+				</div>
 			</div>
-		</section>
+		</div>
 	);
 };
 
