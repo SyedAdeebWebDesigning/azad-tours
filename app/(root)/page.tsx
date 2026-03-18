@@ -1,3 +1,4 @@
+import Cities from "@/components/shared/Cities";
 import HeroSection from "@/components/shared/HeroSection";
 import WhyChooseUs from "@/components/shared/WhyChooseUs";
 
@@ -9,6 +10,9 @@ export default function Home() {
 			</section>
 			<section className="_bg">
 				<WhyChooseUs />
+			</section>
+			<section>
+				<Cities />
 			</section>
 		</main>
 	);
