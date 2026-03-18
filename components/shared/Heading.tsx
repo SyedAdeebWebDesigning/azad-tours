@@ -1,4 +1,6 @@
+"use client";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 interface HeadingProps {
 	title: string;
@@ -8,7 +10,12 @@ interface HeadingProps {
 const Heading = (props: HeadingProps) => {
 	const { title, subTitle, theme } = props;
 	return (
-		<div className="text-center my-10 mx-2">
+		<motion.div
+			initial={{ y: 0, opacity: 0 }}
+			whileInView={{ y: 0, opacity: 1 }}
+			viewport={{ once: true }}
+			transition={{ duration: 0.5, ease: "easeInOut" }}
+			className="text-center my-10 mx-2">
 			<h1
 				className={cn(
 					"text-2xl md:text-4xl font-semibold",
@@ -23,7 +30,7 @@ const Heading = (props: HeadingProps) => {
 				)}>
 				{subTitle}
 			</h4>
-		</div>
+		</motion.div>
 	);
 };
 

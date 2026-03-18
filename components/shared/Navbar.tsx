@@ -20,6 +20,7 @@ export const navLinks = [
 ];
 
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { Suspense } from "react";
 
 const Navbar = () => {
 	return (
@@ -52,28 +53,32 @@ const Navbar = () => {
 							</Link>
 						))}
 
-						<SignedIn>
-							<UserButton
-								appearance={{
-									elements: {
-										avatarBox: { width: "32px", height: "32px" },
-										userButtonPopoverCard: {
-											height: "auto",
-											marginTop: "32px",
+						<Suspense fallback={<p>Loading...</p>}>
+							<SignedIn>
+								<UserButton
+									appearance={{
+										elements: {
+											avatarBox: { width: "32px", height: "32px" },
+											userButtonPopoverCard: {
+												height: "auto",
+												marginTop: "32px",
+											},
 										},
-									},
-								}}
-							/>
-						</SignedIn>
+									}}
+								/>
+							</SignedIn>
+						</Suspense>
 
-						<SignedOut>
-							<Link href="/sign-in">
-								<li className="flex items-center gap-2 group-hover:text-primary transition-colors">
-									<User2 size={16} />
-									Sign In
-								</li>
-							</Link>
-						</SignedOut>
+						<Suspense fallback={<p>Loading...</p>}>
+							<SignedOut>
+								<Link href="/sign-in">
+									<li className="flex items-center gap-2 group-hover:text-primary transition-colors">
+										<User2 size={16} />
+										Sign In
+									</li>
+								</Link>
+							</SignedOut>
+						</Suspense>
 					</ul>
 
 					{/* Mobile Navigation */}
