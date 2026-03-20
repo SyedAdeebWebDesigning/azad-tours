@@ -1,5 +1,6 @@
 import Cities from "@/components/shared/Cities";
 import HeroSection from "@/components/shared/HeroSection";
+import PlanTrip from "@/components/shared/PlanTrip";
 import WhyChooseUs from "@/components/shared/WhyChooseUs";
 
 export default function Home() {
@@ -13,6 +14,9 @@ export default function Home() {
 			</section>
 			<section>
 				<Cities />
+			</section>
+			<section>
+				<PlanTrip />
 			</section>
 		</main>
 	);
