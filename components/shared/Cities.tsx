@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { buttonVariants } from "../ui/button";
+import Container from "./Container";
 import Heading from "./Heading";
 
 const Cities = () => {
@@ -49,7 +50,7 @@ const Cities = () => {
 
 	return (
 		<div className="bg-neutral-100 py-16">
-			<div className="mx-auto max-w-6xl px-4">
+			<Container>
 				{/* Heading */}
 				<Heading
 					title="Major Cities We Serve"
@@ -96,7 +97,7 @@ const Cities = () => {
 						</p>
 					</Link>
 				</div>
-			</div>
+			</Container>
 		</div>
 	);
 };
