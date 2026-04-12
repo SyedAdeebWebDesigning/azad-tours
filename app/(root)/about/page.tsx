@@ -104,7 +104,7 @@ const Page = () => {
 
 					{/* Right: Owner Portrait */}
 					<aside className="lg:col-span-4 sticky top-40 space-y-10">
-						<div className="p-5 rounded-3xl border bg-card shadow-2xl space-y-6">
+						<div className="p-5 rounded-[2rem] border bg-card shadow-2xl space-y-6">
 							{/* Avatar or Image */}
 							<Avatar className="w-full h-auto aspect-4/5 rounded-2xl overflow-hidden shadow-lg">
 								<AvatarImage
