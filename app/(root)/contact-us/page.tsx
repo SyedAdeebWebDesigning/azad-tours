@@ -125,6 +125,7 @@ const ContactPage = () => {
 											<option>Luxury Vanity Van Rental</option>
 											<option>Personalized Travel Tour</option>
 											<option>Corporate Fleet Services</option>
+											<option>Others</option>
 										</select>
 									</div>
 

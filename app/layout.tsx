@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 	title: "Azad Tours and Travels",
 
 	description:
-		"Azad Tours and Travels - Reliable, fully-equipped crew transport vehicles designed for production crews, events, and touring teams—built to handle long schedules, tight turnarounds, and on-site demands.",
+		"Azad Tours and Travels - Reliable, fully-equipped crew transport vehicles designed for production crews, events, and touring teams built to handle long schedules, tight turnarounds, and on-site demands.",
 
 	alternates: {
 		canonical: "/",
