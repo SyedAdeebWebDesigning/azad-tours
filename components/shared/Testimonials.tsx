@@ -31,7 +31,7 @@ const Testimonials = () => {
 
 	return (
 		<Container>
-			<section className="py-20 bg-background">
+			<section className=" pb-20 bg-background">
 				<div className="max-w-7xl mx-auto px-4">
 					<Heading
 						title="Client Stories"
