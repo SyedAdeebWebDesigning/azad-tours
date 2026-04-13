@@ -29,3 +29,27 @@ enum ROLE {
   ADMIN
   USER
 }
+
+model Vehicle {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  modelName     String
+  category      VehicleCategory @default(PREMIUM)
+  maxPassengers Int
+  pricePerKm    Float
+  minBudget     Float
+  features      String
+  image         String?
+  isAdventure   Boolean         @default(false)
+  isAvailable   Boolean         @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum VehicleCategory {
+  BUDGET
+  PREMIUM
+  XL_LUXURY
+  VANS
+}

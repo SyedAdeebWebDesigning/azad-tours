@@ -4,6 +4,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
+import Script from "next/script";
 import { Toaster } from "sonner"; // 1. Import the Toaster
 import "./globals.css";
 
@@ -81,6 +82,10 @@ export default function RootLayout({
 
 					<Analytics />
 					<SpeedInsights />
+					<Script
+						src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}&libraries=places`}
+						strategy="beforeInteractive"
+					/>
 				</body>
 			</html>
 		</ClerkProvider>
