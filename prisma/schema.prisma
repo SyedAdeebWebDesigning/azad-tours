@@ -29,3 +29,44 @@ enum ROLE {
   ADMIN
   USER
 }
+
+model Vehicle {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  modelName     String
+  category      VehicleCategory @default(PREMIUM)
+  maxPassengers Int
+  pricePerKm    Float
+  minBudget     Float
+  features      String
+  image         String?
+  isAdventure   Boolean         @default(false)
+  isAvailable   Boolean         @default(true)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Booking   Booking[]
+}
+
+enum VehicleCategory {
+  BUDGET
+  PREMIUM
+  XL_LUXURY
+  VANS
+}
+
+model Booking {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String
+  userEmail String
+  vehicleId String   @db.ObjectId
+  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id])
+  amount    Float
+  from      String
+  to        String
+  distance  Float? // Add '?' to make it optional
+  paymentId String?  @unique // Add '?' because it's null until payment is done
+  orderId   String   @unique
+  status    String   @default("PENDING") // Start as PENDING
+  createdAt DateTime @default(now())
+}

@@ -1,5 +1,7 @@
 "use server";
 
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 import prisma from "../prisma";
 
 export const createUser = async (data: {
@@ -50,5 +52,27 @@ export const deleteUserByClerkId = async (clerkId: string) => {
 		});
 	} catch (error) {
 		console.error("Error deleting user by Clerk ID:", error);
+	}
+};
+
+export const checkAdminStatus = async () => {
+	try {
+		const { userId } = await auth();
+		if (!userId) return false;
+
+		// Redirect to login if not authenticated
+		if (!userId) {
+			return redirect("/sign-in");
+		}
+
+		const user = await prisma.user.findUnique({
+			where: { clerkId: userId },
+			select: { role: true },
+		});
+
+		return user?.role === "ADMIN";
+	} catch (error) {
+		console.error("Internal Admin Check Error:", error);
+		return false;
 	}
 };
