@@ -1,10 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
-import { buttonVariants } from "../ui/button";
 import Container from "./Container";
 import Heading from "./Heading";
 
@@ -61,8 +57,7 @@ const Cities = () => {
 				{/* Grid */}
 				<div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 					{cities.map((city, idx) => (
-						<Link
-							href={`/cities/${city.name.toLowerCase()}`}
+						<div
 							key={idx}
 							className="group bg-white rounded-3xl border border-gray-100 p-3 transition-all duration-300 hover:-translate-y-1 hover:shadow">
 							{/* Image */}
@@ -81,21 +76,8 @@ const Cities = () => {
 							</h3>
 
 							<p className="text-sm text-gray-500 mt-1">{city.description}</p>
-						</Link>
+						</div>
 					))}
-				</div>
-				<div className="flex items-center justify-center">
-					<Link
-						className={cn(
-							"mt-12",
-							buttonVariants({ variant: "default", size: "lg" }),
-						)}
-						href={"/cities"}>
-						<p className="text-center flex justify-center text-md text-primary-foreground items-center">
-							<span className="">Explore all cities we serve</span>{" "}
-							<ArrowRight className="m-1 mt-1.25" />
-						</p>
-					</Link>
 				</div>
 			</Container>
 		</div>
