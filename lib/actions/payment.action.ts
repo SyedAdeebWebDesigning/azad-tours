@@ -17,6 +17,9 @@ export async function createRazorpayOrder(
 	from: string,
 	to: string,
 	distance: number,
+	startDate: any,
+	endDate: any,
+	guests: number,
 ) {
 	try {
 		// 1. Authenticate the User
@@ -36,6 +39,9 @@ export async function createRazorpayOrder(
 		// We use 'connect' for the vehicle relationship
 		await prisma.booking.create({
 			data: {
+				startDate: startDate,
+				endDate: endDate,
+				guestCount: guests,
 				userId: user.id,
 				userEmail: user.primaryEmailAddress?.emailAddress || "",
 				amount: amount,

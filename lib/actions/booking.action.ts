@@ -16,6 +16,9 @@ export async function createRazorpayOrder(
 	vehicleId: string,
 	from: string,
 	to: string,
+	startDate: string,
+	endDate: string,
+	guests: number,
 ) {
 	try {
 		const user = await currentUser();
@@ -36,6 +39,9 @@ export async function createRazorpayOrder(
 			data: {
 				userId: user.id,
 				userEmail: user.primaryEmailAddress?.emailAddress || "",
+				startDate: startDate,
+				endDate: endDate,
+				guestCount: guests,
 				// Use connect if your schema defines a relation,
 				// or just vehicleId if it's a plain string field
 				vehicleId: vehicleId,

@@ -56,17 +56,20 @@ enum VehicleCategory {
 }
 
 model Booking {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String
-  userEmail String
-  vehicleId String   @db.ObjectId
-  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id])
-  amount    Float
-  from      String
-  to        String
-  distance  Float? // Add '?' to make it optional
-  paymentId String?  @unique // Add '?' because it's null until payment is done
-  orderId   String   @unique
-  status    String   @default("PENDING") // Start as PENDING
-  createdAt DateTime @default(now())
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String
+  userEmail  String
+  vehicleId  String   @db.ObjectId
+  vehicle    Vehicle  @relation(fields: [vehicleId], references: [id])
+  amount     Float
+  guestCount Int
+  from       String
+  startDate  String
+  endDate    String
+  to         String
+  distance   Float? // Add '?' to make it optional
+  paymentId  String?  @unique // Add '?' because it's null until payment is done
+  orderId    String   @unique
+  status     String   @default("PENDING") // Start as PENDING
+  createdAt  DateTime @default(now())
 }

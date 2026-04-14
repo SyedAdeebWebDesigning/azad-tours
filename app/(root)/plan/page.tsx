@@ -147,6 +147,10 @@ const TripPlanner = () => {
 			// 1. Define the variable before using it
 			const calculatedAmount = Math.round(vehicle.pricePerKm * tripDistance);
 
+			const startDate = formData.startDate as string;
+			const endDate = formData.endDate as string;
+			const guestCount = formData.guests as number;
+
 			// 2. Pass the defined variable to the server action
 			const orderData = await createRazorpayOrder(
 				calculatedAmount, // Matches the variable above
@@ -154,6 +158,9 @@ const TripPlanner = () => {
 				formData.from,
 				formData.to,
 				tripDistance,
+				startDate,
+				endDate,
+				guestCount,
 			);
 
 			if (!orderData.success) {
