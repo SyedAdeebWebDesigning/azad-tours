@@ -19,8 +19,9 @@ export const navLinks = [
 	{ name: "Contact Us", href: "/contact-us", icon: Mail },
 ];
 
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { Suspense } from "react";
+import UserProfileButton from "./UserProfileButton";
 
 const Navbar = () => {
 	return (
@@ -55,17 +56,7 @@ const Navbar = () => {
 
 						<Suspense fallback={<p>Loading...</p>}>
 							<SignedIn>
-								<UserButton
-									appearance={{
-										elements: {
-											avatarBox: { width: "32px", height: "32px" },
-											userButtonPopoverCard: {
-												height: "auto",
-												marginTop: "32px",
-											},
-										},
-									}}
-								/>
+								<UserProfileButton />
 							</SignedIn>
 						</Suspense>
 
