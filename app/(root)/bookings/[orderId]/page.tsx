@@ -37,6 +37,7 @@ export default async function SingleBookingPage({
 							className="bg-transparent border-white/20 hover:bg-white/10 text-white rounded-xl">
 							<Printer size={16} className="mr-2" /> Print Receipt
 						</Button> */} 
+                        
 					</div>
 
 					<div className="p-8 md:p-12">
