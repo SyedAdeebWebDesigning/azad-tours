@@ -144,11 +144,12 @@ const TripPlanner = () => {
 	const handleBooking = async (vehicle: any) => {
 		setIsBooking(true);
 		try {
-			const totalAmount = Math.round(vehicle.pricePerKm * tripDistance);
+			// 1. Define the variable before using it
+			const calculatedAmount = Math.round(vehicle.pricePerKm * tripDistance);
 
-			// 1. Call Server Action to create Razorpay Order and DB record
+			// 2. Pass the defined variable to the server action
 			const orderData = await createRazorpayOrder(
-				totalAmount,
+				calculatedAmount, // Matches the variable above
 				vehicle.id,
 				formData.from,
 				formData.to,
@@ -161,16 +162,14 @@ const TripPlanner = () => {
 				return;
 			}
 
-			// 2. Configure the Razorpay Checkout Modal
 			const options = {
 				key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-				amount: orderData.amount,
+				amount: orderData.amount, // This comes back from Razorpay in Paise
 				currency: "INR",
 				name: "Azad Logistics",
 				description: `Fleet Booking: ${formData.from} to ${formData.to}`,
 				order_id: orderData.orderId,
 				handler: async function (response: any) {
-					// Success callback
 					router.push(`/bookings/success?orderId=${orderData.orderId}`);
 				},
 				prefill: {

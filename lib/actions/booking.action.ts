@@ -81,3 +81,28 @@ export async function updateBookingToPaid(orderId: string, paymentId: string) {
 		return { success: false };
 	}
 }
+
+export async function getBookingByOrderId(orderId: string) {
+	try {
+		if (!orderId || typeof orderId !== "string") {
+			console.error("No valid Order ID provided");
+			return null;
+		}
+
+		const user = await currentUser();
+		if (!user) throw new Error("Unauthorized");
+
+		const booking = await prisma.booking.findUnique({
+			where: { id: orderId },
+			include: { vehicle: true },
+		});
+
+		// Ensure the booking exists and belongs to the user
+		if (!booking || booking.userId !== user.id) return null;
+
+		return booking;
+	} catch (error) {
+		console.error("Fetch Booking Error:", error);
+		return null;
+	}
+}
