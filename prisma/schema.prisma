@@ -68,7 +68,7 @@ model Booking {
   endDate    String
   to         String
   distance   Float? // Add '?' to make it optional
-  paymentId  String?  @unique // Add '?' because it's null until payment is done
+  paymentId  String? // Add '?' because it's null until payment is done
   orderId    String   @unique
   status     String   @default("PENDING") // Start as PENDING
   createdAt  DateTime @default(now())
