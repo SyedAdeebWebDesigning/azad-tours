@@ -19,11 +19,14 @@ export const navLinks = [
 	{ name: "Contact Us", href: "/contact-us", icon: Mail },
 ];
 
+import { checkAdminStatus } from "@/lib/actions/user.action";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { Suspense } from "react";
 import UserProfileButton from "./UserProfileButton";
 
-const Navbar = () => {
+const Navbar = async () => {
+	const isAdmin = await checkAdminStatus();
+
 	return (
 		<header className=" shadow-md fixed w-full bg-white z-100">
 			<div className="flex items-center justify-between sticky top-0 w-full z-100 backdrop-blur-2xl max-w-7xl mx-auto px-4 py-2">
@@ -56,7 +59,7 @@ const Navbar = () => {
 
 						<Suspense fallback={<p>Loading...</p>}>
 							<SignedIn>
-								<UserProfileButton />
+								<UserProfileButton isAdmin={isAdmin} />
 							</SignedIn>
 						</Suspense>
 

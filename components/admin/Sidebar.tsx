@@ -17,7 +17,7 @@ export default function Sidebar() {
 	const navItems = [
 		{ label: "Overview", href: "/dashboard" },
 		{ label: "Manage Vehicles", href: "/dashboard/vehicles" },
-		{ label: "Bookings", href: "/dashboard/bookings" },
+		{ label: "Bookings", href: "/dashboard/admin-bookings" },
 	];
 
 	return (

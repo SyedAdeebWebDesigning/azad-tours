@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { sendReceiptEmail } from "@/lib/actions/email.action";
 import prisma from "@/lib/prisma";
 import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
@@ -62,7 +63,7 @@ export async function POST(req: NextRequest) {
 			console.log(`[SUCCESS] Booking for Order ${orderId} marked as PAID.`);
 
 			// --- OPTIONAL: Trigger Email Receipt ---
-			// await sendReceiptEmail(email, orderId);
+			await sendReceiptEmail(email, orderId);
 		}
 
 		// 7. Handle Payment Failure (Optional but recommended)
