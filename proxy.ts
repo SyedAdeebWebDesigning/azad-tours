@@ -1,5 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-
+import { NextRequest, NextResponse } from "next/server";
 const isPublicRoute = createRouteMatcher([
 	"/",
 	"/about",
@@ -26,3 +26,14 @@ export const config = {
 		"/(api|trpc)(.*)",
 	],
 };
+
+export function middleware(request: NextRequest) {
+	const ip =
+		request.headers.get("x-forwarded-for")?.split(",")[0] ||
+		request.headers.get("x-real-ip") ||
+		"Unknown";
+
+	console.log("Client IP:", ip);
+
+	return NextResponse.next();
+}

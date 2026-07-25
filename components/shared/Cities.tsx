@@ -10,37 +10,37 @@ const Cities = () => {
 			name: "Delhi",
 			description:
 				"Our Delhi hub connects you to major routes across North India. Reliable travel services with smooth planning and support.",
-			image: "/assets/cities/delhi.jpg",
+			image: "/assets/cities/delhi.webp",
 		},
 		{
 			name: "Agra",
 			description:
 				"Serving Agra with seamless travel arrangements and guided routes. Ideal for both short trips and extended journeys.",
-			image: "/assets/cities/agra.jpg",
+			image: "/assets/cities/agra.webp",
 		},
 		{
 			name: "Lucknow",
 			description:
 				"Our base in Lucknow ensures dependable travel services across the region. Quick bookings, trusted routes, and local expertise.",
-			image: "/assets/cities/lucknow.jpg",
+			image: "/assets/cities/lucknow.webp",
 		},
 		{
 			name: "Mumbai",
 			description:
 				"Providing travel solutions in Mumbai with efficient planning and connectivity. Perfect for business and leisure trips.",
-			image: "/assets/cities/mumbai.jpg",
+			image: "/assets/cities/mumbai.webp",
 		},
 		{
 			name: "Jaipur",
 			description:
 				"Covering Jaipur with well-organized travel services and flexible options. Experience smooth journeys across Rajasthan.",
-			image: "/assets/cities/jaipur.jpg",
+			image: "/assets/cities/jaipur.webp",
 		},
 		{
 			name: "Kolkata",
 			description:
 				"Extending our services in Kolkata with reliable travel support. Designed for comfort, convenience, and easy connectivity.",
-			image: "/assets/cities/kolkata.jpeg",
+			image: "/assets/cities/kolkata.webp",
 		},
 	];
 
